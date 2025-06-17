@@ -8,10 +8,10 @@ import os
 
 # Load OpenAI key
 load_dotenv()
-api_key = os.getenv("k-proj--bUk4kEJeBgR2viiQ1a6mMWnYoiP7ZLf7H_Ry9Ff4mIh-tsxQe5QAJTtB_NfHCxRJuhQAmfQx5T3BlbkFJ0IxCfSKHTGxx9cY0EEsNSpQ-xkma14Gkrg70qqnsKd4S_Euvukm5YGeDVzX9mW8ZKAMSu3rsMA")
+api_key = os.getenv("OPEN-API-KEY")
 
 # Set up LLM
-llm = OpenAI(openai_api_key=api_key, temperature=0)
+llm = OpenAI(openai_api_key=api_key)
 
 # Define tools
 tools = [
