@@ -1,0 +1,82 @@
+[
+  {
+    "card_name": "HDFC Millennia",
+    "issuer": "HDFC Bank",
+    "joining_fee": 1000,
+    "reward_type": "cashback",
+    "reward_rate": "5% on online spends",
+    "eligibility": "income > 25000",
+    "perks": ["Lounge access", "Amazon voucher"],
+    "apply_link": "https://dummy-hdfc.com"
+  },
+  {
+    "card_name": "SBI SimplySAVE",
+    "issuer": "SBI",
+    "joining_fee": 499,
+    "reward_type": "points",
+    "reward_rate": "10x on dining/grocery",
+    "eligibility": "income > 20000",
+    "perks": ["Dining offers", "Fuel surcharge waiver"],
+    "apply_link": "https://dummy-sbi.com"
+  },
+  {
+    "card_name": "Axis ACE",
+    "issuer": "Axis Bank",
+    "joining_fee": 499,
+    "reward_type": "cashback",
+    "reward_rate": "5% on utility bills via GPay",
+    "eligibility": "income > 30000",
+    "perks": ["Cashback", "Fuel benefits"],
+    "apply_link": "https://dummy-axis.com"
+  },
+  {
+    "card_name": "Amazon Pay ICICI Credit Card",
+    "issuer": "ICICI Bank",
+    "joining_fee": 0,
+    "reward_type": "cashback",
+    "reward_rate": "5% on Amazon (Prime), 1% elsewhere",
+    "eligibility": "income > 20000",
+    "perks": ["Amazon cashback", "No annual fee"],
+    "apply_link": "https://dummy-icici.com/amazon"
+    },
+    {
+    "card_name": "Flipkart Axis Bank Credit Card",
+    "issuer": "Axis Bank",
+    "joining_fee": 500,
+    "reward_type": "cashback",
+    "reward_rate": "5% on Flipkart & Myntra",
+    "eligibility": "income > 25000",
+    "perks": ["Online cashback", "Fuel waiver"],
+    "apply_link": "https://dummy-axis.com/flipkart"
+    },
+    {
+    "card_name": "HDFC Regalia Credit Card",
+    "issuer": "HDFC Bank",
+    "joining_fee": 2500,
+    "reward_type": "travel points",
+    "reward_rate": "4 points per ₹150 spent",
+    "eligibility": "income > 50000",
+    "perks": ["Airport lounge access", "Travel concierge"],
+    "apply_link": "https://dummy-hdfc.com/regalia"
+    },
+    {
+    "card_name": "SBI IRCTC Credit Card",
+    "issuer": "SBI",
+    "joining_fee": 500,
+    "reward_type": "points",
+    "reward_rate": "10% value back on IRCTC bookings",
+    "eligibility": "income > 20000",
+    "perks": ["Railway lounge access", "Fuel waiver"],
+    "apply_link": "https://dummy-sbi.com/irctc"
+    },
+    {
+    "card_name": "IndianOil Axis Bank Credit Card",
+    "issuer": "Axis Bank",
+    "joining_fee": 500,
+    "reward_type": "cashback",
+    "reward_rate": "5% on fuel spends",
+    "eligibility": "income > 25000",
+    "perks": ["Fuel cashback", "Fuel surcharge waiver"],
+    "apply_link": "https://dummy-axis.com/indianoil"
+    }
+]
