@@ -1,29 +1,43 @@
 import streamlit as st
-from langchain.agents import initialize_agent, Tool
-from langchain_community.llms import OpenAI
-from langchain.memory import ConversationBufferMemory
-from tools import filter_cards_by_income, simulate_reward, filter_cards_advanced
 from dotenv import load_dotenv
 import os
+from langchain.agents import initialize_agent, Tool
+from langchain_community.chat_models import ChatOpenAI
+from langchain.memory import ConversationBufferMemory
+from langchain.tools import StructuredTool  # ✅ For multi-input tools
+from langchain.agents import AgentType
 
-# Load OpenAI key
+# Import tools from your tools.py file
+from tools import filter_cards_by_income, simulate_reward, filter_cards_advanced
+
+# ✅ Load environment variables (OPENROUTER_API_KEY)
 load_dotenv()
-api_key = os.getenv("OPEN-API-KEY")
+api_key = os.getenv("OPENROUTER_API_KEY")
 
-# Set up LLM
-llm = OpenAI(openai_api_key=api_key)
+# starting the LLM
+llm = ChatOpenAI(
+    openai_api_key=api_key,
+    base_url="https://openrouter.ai/api/v1",
+    model="cohere/command-r-08-2024"  # model used is calude open-ai have paid API tokens
+)
 
-# Define tools
+# ✅ Setup persistent memory per session
+if "memory" not in st.session_state:
+    st.session_state.memory = ConversationBufferMemory(memory_key="chat_history")
+
+memory = st.session_state.memory
+
+# ✅ Define tools
 tools = [
     Tool(
         name="CardFilterTool",
         func=lambda q: filter_cards_by_income(q),
         description="Filters credit cards based on user's monthly income"
     ),
-    Tool(
+    StructuredTool.from_function(
         name="CardFilterAdvanced",
-        func=lambda profile_json: filter_cards_advanced(eval(profile_json)),
-        description="Filter cards based on income, reward type, and preferred perks."
+        description="Filter cards based on income, reward type, and preferred perks.",
+        func=filter_cards_advanced
     ),
     Tool(
         name="RewardSimulator",
@@ -32,43 +46,49 @@ tools = [
     )
 ]
 
-# Initialize agent
-memory = ConversationBufferMemory(memory_key="chat_history")
+# Agent for the LangChain
+
 agent = initialize_agent(
     tools=tools,
     llm=llm,
-    agent="chat-zero-shot-react-description",
+    agent=AgentType.OPENAI_MULTI_FUNCTIONS,  #
     memory=memory,
-    verbose=False
+    verbose=True
 )
 
-# Streamlit setup
-st.set_page_config(page_title="💬 Chat Advisor", layout="centered")
-st.title("💬 Credit Card Chat Advisor")
 
-# Init session history
+# UI setup
+st.set_page_config(page_title="💳 Credit Card Advisor", layout="centered")
+st.title("💳 Credit Card Advisor (AI-Powered)")
+
+# Display chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Display past messages
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# Chat input
-user_prompt = st.chat_input("Ask me anything about credit cards...")
+# User chat input
+user_input = st.chat_input("Ask about cards, perks, or simulations...")
 
-if user_prompt:
-    # Show user message
-    st.chat_message("user").markdown(user_prompt)
-    st.session_state.messages.append({"role": "user", "content": user_prompt})
+if user_input:
+    # Display user message
+    st.chat_message("user").markdown(user_input)
+    st.session_state.messages.append({"role": "user", "content": user_input})
 
     try:
-        # Get response from agent
-        response = agent.invoke(user_prompt)
+        response = agent.invoke(user_input)
+
+        # If agent returns a dict with "output", extract it
+        if isinstance(response, dict) and "output" in response:
+            response = response["output"]
+
+        # Format response
+        response = str(response).replace("\n", "\n\n")
     except Exception as e:
         response = f"⚠️ Error: {str(e)}"
 
-    # Show bot message
+    # Display assistant response
     st.chat_message("assistant").markdown(response)
     st.session_state.messages.append({"role": "assistant", "content": response})
